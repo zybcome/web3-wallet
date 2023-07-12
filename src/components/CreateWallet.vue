@@ -48,9 +48,9 @@ const init = async () => {
 
     // 导出keyStore
     // 1.web3js
-    var web3 = new Web3(Web3.giveProvider || 'wss://goerli.infura.io/ws/v3/6c6f9d00b3114190a8c586a9a9ca9d3b')
-    const keyStore = await web3.eth.accounts.encrypt("0x79ee94f9cdca87b19a4b77a01ecc689f318957e25098e6a94f5b83a161e8b2a7", '111111')
-    console.log(`keyStoreWeb3：`, keyStore)
+    // var web3 = new Web3(Web3.giveProvider || 'wss://goerli.infura.io/ws/v3/6c6f9d00b3114190a8c586a9a9ca9d3b')
+    // const keyStore = await web3.eth.accounts.encrypt("0x79ee94f9cdca87b19a4b77a01ecc689f318957e25098e6a94f5b83a161e8b2a7", '111111')
+    // console.log(`keyStoreWeb3：`, keyStore)
 
     // 2.wallet对象方法(不会出现：Cannot read properties of undefined (reading 'importKey')错误)
     const keyStore2 = await wallet.toV3("111111")
@@ -59,14 +59,21 @@ const init = async () => {
 
     // 通过keyStore获取私钥
     // 1.web3js
-    const res = await web3.eth.accounts.decrypt('{"version":3,"id":"fbf78b94-39af-4ea3-88b0-37708b95fc3f","address":"e0e94d8f8f183a6078bb267adf8bec1eced03d48","crypto":{"ciphertext":"b5a13fafe647e22ad093005c4b3ecebc069c58c783c9ecf06fbeb616c4af619b","cipherparams":{"iv":"a34f6deae85ace3b51449ce6c9cd665f"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"n":8192,"r":8,"p":1,"dklen":32,"salt":"3638d15e28cac69ef113f61b13ef5adaa88d779c01336b5f48f8cbca27e2803e"},"mac":"f857448e75c8e556a579b98a6e92f9d0f923acb7cc0718abffd52a79765e5d79"}}', '111111')
-    console.log(`通过keyStore获取私钥Web3：`, res)
+    // const res = await web3.eth.accounts.decrypt('{"version":3,"id":"fbf78b94-39af-4ea3-88b0-37708b95fc3f","address":"e0e94d8f8f183a6078bb267adf8bec1eced03d48","crypto":{"ciphertext":"b5a13fafe647e22ad093005c4b3ecebc069c58c783c9ecf06fbeb616c4af619b","cipherparams":{"iv":"a34f6deae85ace3b51449ce6c9cd665f"},"cipher":"aes-128-ctr","kdf":"scrypt","kdfparams":{"n":8192,"r":8,"p":1,"dklen":32,"salt":"3638d15e28cac69ef113f61b13ef5adaa88d779c01336b5f48f8cbca27e2803e"},"mac":"f857448e75c8e556a579b98a6e92f9d0f923acb7cc0718abffd52a79765e5d79"}}', '111111')
+    // console.log(`通过keyStore获取私钥Web3：`, res)
 
     // 2.wallet对象方法
     const wallet2 = await ethWallet.fromV3(keyStore2, '111111')
     const key = wallet2.getPrivateKeyString()
     console.log(`通过keyStore获取私钥wallet：`,key)
 
+    // 通过私钥获取地址
+    const privateKey2 = Buffer(privateKeyString,'hex');
+    console.log(`privateKey2：`,privateKey2)
+    const wallet3 = await ethWallet.fromPrivateKey(privateKey2);
+    console.log(wallet3)
+    const lowerCaseAddress2 = wallet3.getAddressString();
+    console.log(lowerCaseAddress2)
 }
 init();
 </script>
