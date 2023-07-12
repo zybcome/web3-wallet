@@ -182,6 +182,7 @@ const transactionMetaMask = async () => {
   web3MateMask.eth.sendTransaction(transaction)
     .on('transactionHash', function (hash) {
       console.log('交易哈希：', hash);
+      MetaMaskInit()
       pushHerfMateMask.value = `https://goerli.etherscan.io/tx/${hash}`
     })
     .on('confirmation', function (confirmationNumber, receipt) {
@@ -330,6 +331,7 @@ const transaction = async () => {
   // 提交转账
   trans.on("transactionHash", (txHash) => {
     console.log(`交易哈希值: ${txHash}`);
+    init();
     pushHerf.value = `https://goerli.etherscan.io/tx/${txHash}`;
 
     // 第n个节点确认
